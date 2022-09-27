@@ -318,6 +318,7 @@ export class Pairing {
                 const link = getTzip10Link(app.deepLink ?? app.universalLink, code)
 
                 // iOS does not trigger deeplinks with `window.open(...)`. The only way is using a normal link. So we have to work around that.
+                console.log('Attempting to open link (mobile wallet)', link, ` for web wallet ${app.name}`);
                 const a = document.createElement('a')
                 a.setAttribute('href', link)
                 a.dispatchEvent(
@@ -363,6 +364,7 @@ export class Pairing {
           clickHandler: async (): Promise<void> => {
             const code = await serializer.serialize(await pairingCode())
             const qrLink = getTzip10Link('tezos://', code)
+            console.log('Attempting to open link (mobile wallet qrLink)', qrLink, ` for android`);
             window.open(qrLink, '_blank')
             statusUpdateHandler(WalletType.ANDROID)
           }
@@ -399,11 +401,7 @@ export class Pairing {
             .then((code) => {
               const link = getTzip10Link(app.links[network] ?? app.links[NetworkType.MAINNET], code)
 
-              if (newTab) {
-                newTab.location.href = link
-              } else {
-                window.open(link, '_blank')
-              }
+              window.open(link, '_blank')
 
               statusUpdateHandler(WalletType.WEB, this, true)
             })

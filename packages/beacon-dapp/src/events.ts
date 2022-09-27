@@ -176,10 +176,11 @@ const showSentToast = async (data: RequestSentInfo): Promise<void> => {
     ) {
       const link = data.walletInfo.deeplink
       openWalletAction = async (): Promise<void> => {
-        const a = document.createElement('a')
+        window.open(link, '_blank')
+        /* const a = document.createElement('a')
         a.setAttribute('href', link)
         a.setAttribute('target', '_blank')
-        a.dispatchEvent(new MouseEvent('click', { view: window, bubbles: true, cancelable: true }))
+        a.dispatchEvent(new MouseEvent('click', { view: window, bubbles: true, cancelable: true })) */
       }
     }
   }
